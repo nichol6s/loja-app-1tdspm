@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import Cabecalho from '@/components/Cabecalho/Cabecalho'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,14 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-br">
       <body className="dark:bg-slate-400">
 
-    <header>
-      <nav>
-        <Link href="/">HOME</Link> | 
-        <Link href="/produtos/mamao">MAMÃO</Link> | 
-        <Link href="/produtos/melao">MELÃO</Link> | 
-        <Link href="/produtos/manga">MANGA</Link>
-      </nav>
-    </header>
+      <Cabecalho/>
 
         {children}
       </body>
