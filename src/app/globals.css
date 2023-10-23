@@ -8,7 +8,7 @@
         & nav{
             @apply flex flex-row justify-around;
             & a{
-                @apply block py-7 transition-all duration-300 ease-out hover:bg-white hover:text-black font-extrabold 
+                @apply block py-7 transition-all duration-300 ease-out font-extrabold transform scale-100 opacity-100 hover:scale-110 hover:opacity-90 focus:scale-110 focus:opacity-90;
             }
         }
     }
