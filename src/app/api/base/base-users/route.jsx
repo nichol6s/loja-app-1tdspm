@@ -32,6 +32,38 @@ const handleLogin = async (email,senha)=>{
 }
 
 
+const handlCadastro = async (nome,email,senha)=>{
+    //Realziando a leitura do arquivo db.json desde a raiz do projeto.
+    const file = await fs.readFile(process.cwd() + '/src/app/api/base/db.json', 'utf8');  //process.cwd() retorna o caminho da raiz do projeto.
+    
+    //Realizando a conversão do arquivo para que fique manipulavél!
+    const listaUsuarios = await JSON.parse(file); //Convertendo o arquivo para JSON.
+
+    //Criando a lógica de inserção.
+    //1 - Primeiro vamos inserir o novo usuário na lista de usuários.
+    //1.1 - Crinando o objeto do novo usuário.
+    const novoUsuario = {
+        nome:nome,
+        email:email,
+        senha:senha
+    }
+    
+    //1.2 - Inserindo o novo usuário na lista de usuários.
+    listaUsuarios.usuarios.push(novoUsuario);
+
+    //2 - Agora vamos salvar a lista de usuários no arquivo db.json.
+    //2.1 - Convertendo a lista de usuários para STRING.
+    const listaUsuariosSTRING = await JSON.stringify(listaUsuarios);
+
+    //2.2 - Salvando a lista de usuários no arquivo db.json.
+    await fs.writeFile(process.cwd() + '/src/app/api/base/db.json',listaUsuariosSTRING,'utf8');
+
+    //Retornando o objeto da validação acima!!!
+    //Será retornado para quem chamou esta função e passou os parâmetros(nome, email e senha!)
+    return novoUsuario;
+
+}
+
 export async function POST(request,response) {
     
     //Recendo os dados do request.
@@ -52,7 +84,12 @@ export async function POST(request,response) {
         }
         //Abaixo já estamos deixando a estrutura pronta para receber a funcionalidade de cadastro.
     }else if(info == "cadastro"){
-        return NextResponse.json(false);
+        const newUser = await handlCadastro(nome,email,senha);
+        if(newUser){
+            return NextResponse.json(newUser);
+        }else{
+            return  NextResponse.json(false);
+        }
     }else{
         return NextResponse.json(false);
     }
